@@ -1,0 +1,190 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="David" id="1">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(100)">   
+                <constraints nullable="false"/>          
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="physical_address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_last_updated" type="datetime(6)">
+            </column>
+            <column name="date_deleted" type="datetime(6)">
+            </column> 
+        </createTable>
+    </changeSet>
+
+    <changeSet author="David" id="2" runOnChange="true">
+        <createTable tableName="type">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="David" id="3">
+        <createTable tableName="movies_status">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="David" id="4">
+        <createTable tableName="movie">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">             
+            </column>
+            <column name="description" type="VARCHAR(255)">
+            </column>
+            <column name="recommendation" type="VARCHAR(100)">
+            </column>
+            <column name="rating" type="INT">
+            </column>
+            <column name="type" type="INT">
+            </column>
+            <column name="status" type="INT">
+            </column>
+        </createTable>
+    </changeSet>
+   
+    <changeSet author="David" id="6">
+        <createTable tableName="rating">
+            <column  name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="value" type="INT">
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="David" id="7">
+        <insert tableName="type">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Series"/>
+        </insert>
+        <insert tableName="type">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Movie"/>
+        </insert>
+    </changeSet>
+    <changeSet author="David" id="8">
+        <insert tableName="rating">
+            <column name="id" valueNumeric="1"/>
+            <column name="value" value="1"/>
+        </insert>
+        <insert tableName="rating">
+            <column name="id" valueNumeric="2"/>
+            <column name="value" value="2"/>
+        </insert>
+        <insert tableName="rating">
+            <column name="id" valueNumeric="3"/>
+            <column name="value" value="3"/>
+        </insert>
+        <insert tableName="rating">
+            <column name="id" valueNumeric="4"/>
+            <column name="value" value="4"/>
+        </insert>
+        <insert tableName="rating">
+            <column name="id" valueNumeric="5"/>
+            <column name="value" value="5"/>
+        </insert>
+    </changeSet>
+    <changeSet author="David" id="9">
+        <insert tableName="movies_status">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Watched"/>
+        </insert>
+        <insert tableName="movies_status">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Unwatched"/>
+        </insert>
+    </changeSet>
+    <changeSet author="David" id="10">
+        <addForeignKeyConstraint baseColumnNames="status"
+                                 baseTableName="movie"
+                                 constraintName="fk_movie_movies_status" 
+                                 deferrable="false" 
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION" 
+                                 onUpdate="NO ACTION" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="movies_status"/>
+    </changeSet>
+    <changeSet author="David" id="11">
+        <addForeignKeyConstraint baseColumnNames="type"
+                                 baseTableName="movie"
+                                 constraintName="fk_movie_type" 
+                                 deferrable="false" 
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION" 
+                                 onUpdate="NO ACTION" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="type"/>
+    </changeSet> 
+    <changeSet author="David" id="12">
+        <addForeignKeyConstraint baseColumnNames="rating"
+                                 baseTableName="movie"
+                                 constraintName="fk_movie_rating" 
+                                 deferrable="false" 
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION" 
+                                 onUpdate="NO ACTION" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="rating"/>
+    </changeSet> 
+     <changeSet author="David" id="13">
+        <addColumn tableName=" movie">   
+            <column name="date_created" type="datetime(6)"/>
+        </addColumn>
+        <addColumn tableName=" movie">   
+            <column name="date_last_updated" type="datetime(6)"/>
+        </addColumn>
+        <addColumn tableName=" movie">   
+            <column name="date_deleted" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="David" id="14">
+        <addColumn tableName="users">   
+            <column name="username" type="varchar(100)"/>
+        </addColumn>
+        <addColumn tableName=" users">   
+            <column name="password" type="varchar(500)"/>
+        </addColumn>
+    </changeSet>
+    
+   
+</databaseChangeLog>
