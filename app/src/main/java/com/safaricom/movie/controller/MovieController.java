@@ -21,12 +21,17 @@ import com.safaricom.movie.utils.AppConstants;
 import com.safaricom.movie.utils.Response;
 import com.safaricom.movie.utils.SingleItemResponse;
 import com.safaricom.movie.utils.Util;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/movies")
+@Api(value ="Movies/Series Management System", description="Operations pertaining adding, viewing and deleting movies from the")
 public class MovieController {
     
     @Autowired
@@ -60,8 +66,10 @@ public class MovieController {
     @Autowired
     private StatusDao statusDao;
     
+    
+    @ApiOperation(value = "Add a movie or series")
     @PostMapping
-    private ResponseEntity createMovie(@RequestBody MovieRequest request, @CurrentUser UserPrincipal currentUser){
+    private ResponseEntity createMovie(@ApiParam(value = "Movie object store in  the database", required = true)@RequestBody MovieRequest request, @CurrentUser UserPrincipal currentUser){
         boolean exists = movieDao.existsByTitle(request.getTitle());
         if(exists){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new SingleItemResponse(Response.MOVIE_EXISTS.status(), null));
@@ -79,6 +87,13 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.createUpdateMovie(request));
     }
     
+    @ApiOperation(value = "View a list of available movies or series and also fetch according to flag passed", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping
     public ResponseEntity getMovies(
             @RequestParam(value = "direction", defaultValue = AppConstants.Pagination.DEFAULT_ORDER_DIRECTION) String direction,

@@ -85,10 +85,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/v1/users/signin")
-                        .permitAll()
-                 .antMatchers(HttpMethod.POST,"/api/v1/users/signup").permitAll()
-                    .anyRequest()
+               .antMatchers("/",
+                       "/favicon.ico",
+                       "/**/*.png",
+                       "/**/*.gif",
+                       "/**/*.svg",
+                       "/**/*.jpg",
+                       "/**/*.html",
+                       "/**/*.css",
+                       "/**/*.js")
+               .permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**",
+                        "/swagger-ui.html", "/webjars/**").permitAll()
+               .antMatchers(HttpMethod.POST, "/api/v1/users/signin")
+               .permitAll()
+               .antMatchers(HttpMethod.POST, "/api/v1/users/signup").permitAll()
+               .anyRequest()
                         .authenticated();
         // Add our customJWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
