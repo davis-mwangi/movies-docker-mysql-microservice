@@ -15,7 +15,7 @@ iii) Run `docker-componse up`
  
 i)  Run `docker container ls` to check running containers
  
-ii) Get the container id or container name i.e container name `movies-docker-mysql-microservice_app_1` or container id e.g      `51c1a6b44e64` by running `docker container ls`. Refer https://docs.docker.com/engine/reference/commandline/docker/ for more info docker commands.
+ii) Get the container id or container name i.e container name `movies-docker-mysql-microservice_app_1` or container id e.g      `51c1a6b44e64` by running `docker container ls`. Refer https://docs.docker.com/engine/reference/commandline/docker/ for more info about docker commands.
  
 iii) Retrieve the IP Address of our Micro-Service  container.
  
