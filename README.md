@@ -31,5 +31,11 @@ You Successfully run micro-service in docker !!!!
 
 To stop the service Run `docker-compose down` .
 
+## Prerequisites: ##   
+
+i) Install Docker 
+
+ii) Docker-compose for linux users. For Windows and Mac users docker-compose is already packaged with docker. For more info check https://docs.docker.com/compose/install
+
 
 ### Front-end UI using React/Redux consuming all the endpoints - coming Soon !!!###
