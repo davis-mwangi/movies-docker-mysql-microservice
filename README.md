@@ -29,6 +29,7 @@ iv) Now you  can easily access the endpoints.
 
 You Successfully run micro-service in docker !!!! 
 
+To stop the service Run `docker-compose down` .
 
 
 ### Front-end UI using React/Redux consuming all the endpoints - coming Soon !!!###
