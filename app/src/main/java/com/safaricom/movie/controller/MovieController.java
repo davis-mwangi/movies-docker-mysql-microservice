@@ -77,8 +77,9 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.createUpdateMovie(request));
     }
     
+     @ApiOperation(value = "Update a movie or series")
     @PutMapping
-    private ResponseEntity updateMovie(@RequestBody MovieRequest request, @CurrentUser UserPrincipal currentUser){
+    private ResponseEntity updateMovie(@ApiParam(value = "Update movie object", required = true)@RequestBody MovieRequest request, @CurrentUser UserPrincipal currentUser){
         boolean exists = movieDao.existsById(request.getId());
         
         if(!exists){
@@ -112,8 +113,9 @@ public class MovieController {
         ).getContent()));
     }
     
+    @ApiOperation(value = "Delete a movie or series")
     @DeleteMapping("/{id}")
-    private ResponseEntity deleteMovie(@PathVariable("id") Integer id, @CurrentUser UserPrincipal currentUser){
+    private ResponseEntity deleteMovie( @ApiParam(value = "Movie Id from which movie object will delete from database table", required = true) @PathVariable("id") Integer id, @CurrentUser UserPrincipal currentUser){
         boolean exists = movieDao.existsById(id);
         
         if(!exists){
@@ -121,8 +123,9 @@ public class MovieController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(movieService.deleteMovie(id));
     }
+    @ApiOperation(value = "Get a movie or series by Id")
     @GetMapping("/{id}")
-    private ResponseEntity getMovie(@PathVariable("id") Integer id,@CurrentUser UserPrincipal currentUser){
+    private ResponseEntity getMovie(@ApiParam(value = "Movie id from which movie object will retrieve", required = true) @PathVariable("id") Integer id,@CurrentUser UserPrincipal currentUser){
         boolean exists = movieDao.existsById(id);
         
         if(!exists){
@@ -133,7 +136,13 @@ public class MovieController {
     
     
     /// Supplements
-    
+    @ApiOperation(value = "View a list of movie/series ratings available", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping("/ratings")
     public ResponseEntity getRatings(
             @RequestParam(value = "direction", defaultValue = AppConstants.Pagination.DEFAULT_ORDER_DIRECTION) String direction,
@@ -147,6 +156,14 @@ public class MovieController {
         ).getContent()));
     }
     
+    
+    @ApiOperation(value = "View a list of genre type(movie or Series)  available", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping("/types")
     public ResponseEntity getTypes(
             @RequestParam(value = "direction", defaultValue = AppConstants.Pagination.DEFAULT_ORDER_DIRECTION) String direction,
@@ -160,6 +177,14 @@ public class MovieController {
         ).getContent()));
     }
     
+    
+    @ApiOperation(value = "View a list of movie/series status(Either `watched` or `unwatched`) available", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping("/status")
     public ResponseEntity getMovieSatus(
             @RequestParam(value = "direction", defaultValue = AppConstants.Pagination.DEFAULT_ORDER_DIRECTION) String direction,
