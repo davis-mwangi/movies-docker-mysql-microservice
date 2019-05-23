@@ -19,8 +19,9 @@ ii) Get the container id or container name i.e container name `movies-docker-mys
  
 iii) Retrieve the IP Address of our Micro-Service  container.
  
-  `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' movies-docker-mysql-microservice_app_1
+ Run  `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' movies-docker-mysql-microservice_app_1
 `
+
 iv) Now you  can easily access the endpoints. 
 
   Using Swagger `http://<container-ip-address>:8081/swagger-ui.html#/` e.g `http://172.21.0.3:8081/swagger-ui.html`
