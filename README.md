@@ -19,7 +19,7 @@ ii) Get the container id or container name i.e container name `movies-docker-mys
  
 iii) Retrieve the IP Address of our Micro-Service  container.
  
- Run  `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' movies-docker-mysql-microservice_app_1 or <container-id>
+ Run  `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' movies-docker-mysql-microservice_app_1` or `<container-id>`
 `
 
 iv) Now you  can easily access the endpoints. 
